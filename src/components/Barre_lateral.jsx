@@ -1,0 +1,56 @@
+import React from 'react';
+import {
+  FaCog,
+  FaShoppingCart,
+  FaSignOutAlt,
+  FaTable,
+  FaTruck,
+  FaUser,
+  FaHome
+} from 'react-icons/fa';
+import { FaUsers } from 'react-icons/fa6';
+import { NavLink } from 'react-router-dom'; 
+
+const Barre_lateral = () => {
+  const menuItems = [
+    { id: 1, name: 'Tableau de bord', path: '/admin-dashboard', icon: <FaHome />,isParent: true },
+    { id: 2, name: 'Catégories', path: '/admin-dashboard/categories', icon: <FaTable />,isParent: false },
+    { id: 3, name: 'Produits', path: '/admin-dashboard/produits', icon: <FaTable />,isParent: false },
+    { id: 4, name: 'Fournisseur', path: '/admin-dashboard/fournisseurs', icon: <FaTruck />,isParent: false },
+    { id: 5, name: 'Commandes', path: '/admin-dashboard/commandes', icon: <FaShoppingCart />, isParent: false },
+    { id: 6, name: 'Utilisateurs', path: '/admin-dashboard/utilisateurs', icon: <FaUsers />, isParent: false },
+    { id: 7, name: 'Profil', path: '/admin-dashboard/profile', icon: <FaCog />, isParent: false},
+    { id: 8, name: 'Déconnexion', path: '/logout', icon: <FaSignOutAlt />, isParent: false }, 
+  ];
+
+  return (
+    <div className="flex flex-col h-screen p-3 bg-black text-white w-16 md:w-60 shadow-lg fixed">
+      <div className="h-16 flex justify-center items-center">
+        <span className="hidden md:block text-lg font-bold">Inventaire MS</span>
+        <span className="md:hidden text-lg font-bold">IMS</span>
+      </div>
+
+      <div className="flex-1 mt-4">
+        <ul className="space-y-1 p-1">
+          {menuItems.map((items) => (
+            <li key={items.id}>
+              <NavLink
+              end={items.isParent}
+                to={items.path}
+                className={({ isActive }) =>
+                  (isActive ? 'bg-gray-700 ' : '') +
+                  'flex items-center p-2 rounded-md hover:bg-gray-700 transition duration-200'
+                }
+              >
+                <span className="text-xl">{items.icon}</span>
+                <span className="hidden md:block ml-4">{items.name}</span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Barre_lateral;
