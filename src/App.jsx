@@ -1,12 +1,14 @@
 import './App.css';
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Root from './utils/Root';
 import Login from './pages/Login';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import Dashboard from './pages/Dashboard';
 import Categories from './components/Categories';
 import Fournisseurs from './components/Fournisseurs';
+import Products from './components/Products';
+import Logout from './components/Logout';
 function App() {
   return (
     <Router >
@@ -30,7 +32,7 @@ function App() {
           />
            <Route
            path='produits'
-           element={<h1>Produits</h1>}
+           element={<Products />}
           />
 
            <Route
@@ -49,13 +51,14 @@ function App() {
            element={<h1>Utilisateurs</h1>}
           />
 
+          
 
             <Route
            path='profile'
            element={<h1>Profil</h1>}
           />
-        </Route>
-       
+        </Route><Route path='logout' element={<Logout />} />
+
 
         <Route path="/customer/dashboard" element={<h1>Customer Dashboard</h1>} />
         <Route path='/login' element={<Login />}/>
