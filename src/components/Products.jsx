@@ -6,6 +6,8 @@ const Products = () => {
   const [categories, setCategories] = useState([]);
   const [fournisseurs, setFournisseurs] = useState([]);
   const [products,setProducts] = useState([])
+  const [filtreProduit,setfiltreProduit] = useState([])
+  const[ModifierProduit, setModiferProduit] = useState(null)
   const [formData, setFormData] = useState({
     name: "",
     stock: "",
@@ -21,10 +23,102 @@ const Products = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const closeModal = () => {
+    setouvrirModal(false)
+    setModiferProduit(null)
+    setFormData({
+      name:"",
+       stock:"" ,
+          price: "",
+          description: "",
+          categoryId: "",
+          fournisseurId: "",
+    })
+  }
+   const modification = (product) => {
+    setFormData({
+      name: product.name,
+          stock: product.stock,
+          price: product.price,
+          description: product.description,
+          categoryId: product.categoryId._id,
+          fournisseurId: product.fournisseurId._id,
+    });
+    setouvrirModal(true);
+    setModiferProduit(product._id);
+    console.log("ID fournisseur à modifier :", product._id);
+
+  }
+ 
+   const Suppression = async (id) => {
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette produit ?")
+    if (!confirmDelete) return
+
+    try {
+      const token = localStorage.getItem('pos-token');
+      if(!token){
+        alert("Token manquant ou non défini")
+      }
+      const supprimerProduit = await axios.delete(`http://localhost:3000/api/produits/${id}`,{
+        headers : {
+        Authorization: `Bearer ${token}`
+      }
+      }
+        
+      );
+      if (supprimerProduit.data.success) {
+        alert("Fournisseur supprimée avec succès")
+        AfficherProduits()
+      } else {
+        alert("Erreur lors de la suppression")
+      }
+      
+    } catch (error) {
+       console.error("Erreur de suppression :", error)
+      alert("Erreur de suppression, veuillez réessayer")
+    }
+  }
+
   // Soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
+     if (ModifierProduit) {
+  try {
+    const response = await axios.put(
+      `http://localhost:3000/api/produits/${ModifierProduit}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('pos-token')}`,
+        },
+      }
+    );
 
+    // ✅ on vérifie si la modification a réussi
+    if (response.status === 200 || response.data) {
+      alert("Fournisseur modifié avec succès");
+
+      setFormData({
+       name: "",
+          stock: "",
+          price: "",
+          description: "",
+          categoryId: "",
+          fournisseurId: "",
+      });
+      setouvrirModal(false);
+      setModiferProduit(null); // 🆗 réinitialisation
+      AfficherProduits();
+    } else {
+      alert("Échec de la modification du produits");
+      console.error("Réponse inattendue :", response);
+    }
+  } catch (error) {
+    console.error("Erreur de modification :", error);
+    alert("Erreur lors de la modification");
+  }
+}
+else {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/produits/ajout",
@@ -55,6 +149,8 @@ const Products = () => {
       console.error("Erreur d'ajout", error);
       alert("Erreur d'ajout. Veuillez réessayer.");
     }
+}
+  
   };
 
   // Charger fournisseurs + catégories
@@ -72,10 +168,19 @@ const Products = () => {
       setFournisseurs(response.data.fournisseurs || []);
       setCategories(response.data.categories || []);
       setProducts(response.data.products || [])
+      setfiltreProduit(response.data.products || [])
     } catch (error) {
       console.error("Erreur récupération fournisseurs:", error);
     }
   };
+
+   const Recherche = (e) => {
+    setfiltreProduit(
+      products.filter((product)=>(
+        product.name.toLowerCase().includes(e.target.value.toLowerCase()) 
+      ) )
+    )
+  }
 
   useEffect(() => {
     AfficherProduits();
@@ -91,6 +196,7 @@ const Products = () => {
         type="text"
         placeholder="Search"
         className="border p-1 rounded px-4"
+        onChange={Recherche}
       />
       <button
         className="px-4 py-1.5 bg-blue-500 text-white rounded cursor-pointer"
@@ -108,7 +214,7 @@ const Products = () => {
           <button
             className="absolute top-4 right-4 font-bold text-lg cursor-pointer"
             type="button"
-            onClick={() => setouvrirModal(false)}
+            onClick={closeModal}
           >
             X
           </button>
@@ -142,10 +248,11 @@ const Products = () => {
             <input
               type="number"
               placeholder="Stock"
+              min="0"
+              name="stock"
               className="border p-1 bg-white rounded px-4"
               value={formData.stock}
               onChange={handleChange}
-              name="stock"
             />
 
             {/* Fournisseur */}
@@ -184,11 +291,11 @@ const Products = () => {
                 type="submit"
                 className="w-full mt-2 rounded-md bg-green-500 text-white p-3 cursor-pointer"
               >
-                Ajouter Produit
+                {ModifierProduit ? "Enregister la modification" : " Ajouter Produit"}
               </button>
               <button
                 type="button"
-                onClick={() => setouvrirModal(false)}
+                onClick={closeModal}
                 className="w-full mt-2 bg-red-500 text-white rounded cursor-pointer p-3"
               >
                 Annuler
@@ -216,19 +323,19 @@ const Products = () => {
         </tr>
       </thead>
       <tbody>
-        {products.map((product, index) => (
+        {filtreProduit && filtreProduit.map((product, index) => (
           <tr key={product._id}>
             <td className="border border-gray-300 p-2">{index + 1}</td>
             <td className="border border-gray-300 p-2">{product.name}</td>
             <td className="border border-gray-300 p-2">{product.description}</td>
             <td className="border border-gray-300 p-2">{product.price} €</td>
             <td className="border border-gray-300 p-2">
-              <span>
+              <span className="px-2 py-1 rounded-full font-semibold">
               {product.stock === 0 ? (
-                <span className="bg-red-100 text-red-500">{product.stock}</span>
+                <span className="bg-red-100 text-red-500 px-2 py-1 rounded-full">{product.stock}</span>
               ):product.stock < 5 ? (
-                <span className="bg-yellow-100 text-yellow-600">{product.stock}</span>
-              ): ( <span className="bg-green-100 text-green-500">{product.stock}</span>)} 
+                <span className="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full">{product.stock}</span>
+              ): ( <span className="bg-green-100 text-green-500 px-2 py-1 rounded-full">{product.stock}</span>)} 
               </span>
               </td>
             <td className="border border-gray-300 p-2">
@@ -238,13 +345,14 @@ const Products = () => {
               {product.fournisseurId?.nom || "—"}
             </td>
             <td className="border border-gray-300 p-2">
-                      <button className='px-2 py-1 bg-yellow-500 text-white rounded cursor-pointer mr-2' onClick={() => modification(fournisseur)}>Modifier</button>
-                      <button className='px-2 py-1 bg-red-500 text-white rounded cursor-pointer' onClick={() => Suppression(fournisseur._id)}>Supprimer</button>
+                      <button className='px-2 py-1 bg-yellow-500 text-white rounded cursor-pointer mr-2' onClick={() => modification(product)}>Modifier</button>
+                      <button className='px-2 py-1 bg-red-500 text-white rounded cursor-pointer' onClick={() => Suppression(product._id)}>Supprimer</button>
                     </td>
           </tr>
         ))}
       </tbody>
     </table>
+    {filtreProduit.length === 0 & <div> No records </div>}
   </div>
 );
 

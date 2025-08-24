@@ -134,7 +134,7 @@ else {
   }
 
   const Suppression = async (id) => {
-    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?")
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette Fournisseur ?")
     if (!confirmDelete) return
 
     try {
