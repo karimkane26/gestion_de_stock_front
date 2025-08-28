@@ -12,16 +12,26 @@ const  Users = () => {
     })
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
+  const [filtreUser,setFiltreUser] = useState([]);
+
+  const Recherche = (e) => {
+    setFiltreUser(
+      users.filter((user)=>(
+        user.name.toLowerCase().includes(e.target.value.toLowerCase()) 
+      ) )
+    )
+  }
 
   const AfficherUtilisateurs= async () => {
     setLoading(true)
     try {
-      const response = await axios.get('http://localhost:3000/api/usres', {
+      const response = await axios.get('http://localhost:3000/api/users', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('pos-token')}`
         }
       })
       setUsers(response.data.users)
+      setFiltreUser(response.data.users) 
       setLoading(false)
     } catch (error) {
       console.error("Erreur récupération users :", error)
@@ -72,7 +82,7 @@ const handleChange = (e) => {
     //   } else {
         // Ajout
        const  response = await axios.post(
-          'http://localhost:3000/api/usres/ajout',
+          'http://localhost:3000/api/users/ajout',
            formData,
           { headers: { Authorization: `Bearer ${token}` } }
         )
@@ -112,35 +122,35 @@ const handleChange = (e) => {
 //     setCategoriesDescription("")
 //   }
 
-  // const handleDelete = async (id) => {
-  //   const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette fournisseur ?")
-  //   if (!confirmDelete) return
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette Utilisateur ?")
+    if (!confirmDelete) return
 
-  //   try {
-  //     const token = localStorage.getItem('pos-token')
-  //     if (!token) {
-  //       alert("Token manquant, veuillez vous reconnecter.")
-  //       return
-  //     }
+    try {
+      const token = localStorage.getItem('pos-token')
+      if (!token) {
+        alert("Token manquant, veuillez vous reconnecter.")
+        return
+      }
 
-  //     const response = await axios.delete(`http://localhost:3000/api/categorie/${id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     })
+      const response = await axios.delete(`http://localhost:3000/api/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
 
-  //     if (response.data.success) {
-  //       alert("utilisateur  supprimée avec succès")
-  //       AfficherUtilisateurs()
-  //     } else {
-  //       alert("Erreur lors de la suppression")
-  //     }
+      if (response.data.success) {
+        alert("utilisateur  supprimée avec succès")
+        AfficherUtilisateurs()
+      } else {
+        alert("Erreur lors de la suppression")
+      }
 
-  //   } catch (error) {
-  //     console.error("Erreur de suppression :", error)
-  //     alert("Erreur de suppression, veuillez réessayer")
-  //   }
-  // }
+    } catch (error) {
+      console.error("Erreur de suppression :", error)
+      alert("Erreur de suppression, veuillez réessayer")
+    }
+  }
 
   if (loading) return <div>Loading...</div>
 
@@ -234,7 +244,7 @@ const handleChange = (e) => {
 
         <div className="lg:w-2/3">
           <div className="bg-white shadow-md rounded-lg p-4">
-        <input type="search" placeholder="Search" id="" className="p-2 bg-white w-full mb-4 rounded" />
+        <input type="search" placeholder="Search" id="" className="p-2 bg-white w-full mb-4 rounded" onChange={Recherche}/>
             <table className="w-full border-collapse border border-gray-200">
               <thead>
                 <tr className="bg-gray-100">
@@ -247,7 +257,7 @@ const handleChange = (e) => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {filtreUser && filtreUser.map((user, index) => (
                   <tr key={user._id}>
                     <td className="border border-gray-200 p-2">{index + 1}</td>
                     <td className="border border-gray-200 p-2">{user.name}</td>
@@ -263,17 +273,19 @@ const handleChange = (e) => {
                       >
                         Modifier
                       </button> */}
-                      {/* <button
+                      <button
                         className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600"
-                        onClick={() => handleDelete(categorie._id)}
+                        onClick={() => handleDelete(user._id)}
                       >
                         Supprimer
-                      </button> */}
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            {filtreUser.length === 0 && <div>Pas de données </div>}
+
           </div>
         </div>
 
