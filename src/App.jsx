@@ -9,6 +9,7 @@ import Categories from './components/Categories';
 import Fournisseurs from './components/Fournisseurs';
 import Products from './components/Products';
 import Logout from './components/Logout';
+import Users from './components/Users';
 function App() {
   return (
     <Router >
@@ -47,8 +48,8 @@ function App() {
 
 
            <Route
-           path='utilisateurs'
-           element={<h1>Utilisateurs</h1>}
+           path='Utilisateurs'
+           element={<Users />}
           />
 
           

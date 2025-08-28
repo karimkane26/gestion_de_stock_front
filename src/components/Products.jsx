@@ -352,7 +352,7 @@ else {
         ))}
       </tbody>
     </table>
-    {filtreProduit.length === 0 & <div> No records </div>}
+    {filtreProduit.length === 0 && <div> No records </div>}
   </div>
 );
 
