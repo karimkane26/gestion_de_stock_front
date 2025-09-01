@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FaCog,
   FaShoppingCart,
@@ -10,19 +10,30 @@ import {
 } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom'; 
+import { useAuth } from '../context/AuthContext';
 
 const Barre_lateral = () => {
   const menuItems = [
     { id: 1, name: 'Tableau de bord', path: '/admin-dashboard', icon: <FaHome />,isParent: true },
     { id: 2, name: 'Catégories', path: '/admin-dashboard/categories', icon: <FaTable />,isParent: false },
-    { id: 3, name: 'Produits', path: '/admin-dashboard/produits', icon: <FaTable />,isParent: false },
     { id: 4, name: 'Fournisseur', path: '/admin-dashboard/fournisseurs', icon: <FaTruck />,isParent: false },
-    { id: 5, name: 'Commandes', path: '/admin-dashboard/commandes', icon: <FaShoppingCart />, isParent: false },
     { id: 6, name: 'Utilisateurs', path: '/admin-dashboard/utilisateurs', icon: <FaUsers />, isParent: false },
-    { id: 7, name: 'Profil', path: '/admin-dashboard/profile', icon: <FaCog />, isParent: false},
-    { id: 8, name: 'Déconnexion', path: '/logout', icon: <FaSignOutAlt />, isParent: false }, 
+    
   ];
 
+  const customerItems = [
+    { id: 3, name: 'Produits', path: '/customer-dashboard/produits', icon: <FaTable />,isParent: false },
+       { id: 5, name: 'Commandes', path: '/customer-dashboard/commandes', icon: <FaShoppingCart />, isParent: false },
+    { id: 7, name: 'Profil', path: '/customer-dashboard/profile', icon: <FaCog />, isParent: false},
+    { id: 8, name: 'Déconnexion', path: '/customer-dashboard/logout', icon: <FaSignOutAlt />, isParent: false }, 
+  ]
+  const {user} = useAuth();
+  const[menuLinks, setMenuLinks] = useState(customerItems);
+  useEffect(()=> {
+    if(user && user.role === "admin"){
+      setMenuLinks(menuItems)
+    }
+  },[])
   return (
     <div className="flex flex-col h-screen p-3 bg-black text-white w-16 md:w-60 shadow-lg fixed">
       <div className="h-16 flex justify-center items-center">
@@ -32,7 +43,7 @@ const Barre_lateral = () => {
 
       <div className="flex-1 mt-4">
         <ul className="space-y-1 p-1">
-          {menuItems.map((items) => (
+          {menuLinks.map((items) => (
             <li key={items.id}>
               <NavLink
               end={items.isParent}

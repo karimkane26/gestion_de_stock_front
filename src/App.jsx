@@ -10,6 +10,7 @@ import Fournisseurs from './components/Fournisseurs';
 import Products from './components/Products';
 import Logout from './components/Logout';
 import Users from './components/Users';
+import CustomerProducts from './components/CustomerProducts';
 function App() {
   return (
     <Router >
@@ -52,16 +53,17 @@ function App() {
            element={<Users />}
           />
 
-          
-
             <Route
            path='profile'
            element={<h1>Profil</h1>}
           />
-        </Route><Route path='logout' element={<Logout />} />
+        </Route>
+        <Route path='logout' element={<Logout />} />
 
 
-        <Route path="/customer/dashboard" element={<h1>Customer Dashboard</h1>} />
+        <Route path="/customer-dashboard" element={<Dashboard />}>
+        <Route index element={<CustomerProducts />} />
+        </Route>
         <Route path='/login' element={<Login />}/>
         <Route path='unauthorized' element={<p className='font-bold text-3xl ml-20'>Unauthorized</p>}/>
       </Routes>
