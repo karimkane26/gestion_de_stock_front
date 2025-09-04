@@ -11,6 +11,8 @@ import Products from './components/Products';
 import Logout from './components/Logout';
 import Users from './components/Users';
 import CustomerProducts from './components/CustomerProducts';
+import Orders from './components/Orders';
+import Profile from './components/Profile';
 function App() {
   return (
     <Router >
@@ -57,12 +59,16 @@ function App() {
            path='profile'
            element={<h1>Profil</h1>}
           />
-        </Route>
         <Route path='logout' element={<Logout />} />
+
+        </Route>
 
 
         <Route path="/customer-dashboard" element={<Dashboard />}>
         <Route index element={<CustomerProducts />} />
+        <Route path='commandes' element={<Orders />}></Route>
+        <Route path='profile' element={<Profile  />}/>
+        <Route path='logout' element={<Logout />} />
         </Route>
         <Route path='/login' element={<Login />}/>
         <Route path='unauthorized' element={<p className='font-bold text-3xl ml-20'>Unauthorized</p>}/>

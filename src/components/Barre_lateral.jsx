@@ -18,17 +18,20 @@ const Barre_lateral = () => {
     { id: 2, name: 'Catégories', path: '/admin-dashboard/categories', icon: <FaTable />,isParent: false },
     { id: 4, name: 'Fournisseur', path: '/admin-dashboard/fournisseurs', icon: <FaTruck />,isParent: false },
     { id: 6, name: 'Utilisateurs', path: '/admin-dashboard/utilisateurs', icon: <FaUsers />, isParent: false },
-    
+    { id: 7, name: 'Produits', path: '/admin-dashboard/produits', icon: <FaTable />,isParent: false },
+       { id: 8, name: 'Commandes', path: '/admin-dashboard/commandes', icon: <FaShoppingCart />, isParent: false },
+    { id: 9, name: 'Profil', path: '/admin-dashboard/profile', icon: <FaCog />, isParent: false},
+    { id: 10, name: 'Déconnexion', path: '/admin-dashboard/logout', icon: <FaSignOutAlt />, isParent: false }, 
   ];
 
   const customerItems = [
-    { id: 3, name: 'Produits', path: '/customer-dashboard/produits', icon: <FaTable />,isParent: false },
-       { id: 5, name: 'Commandes', path: '/customer-dashboard/commandes', icon: <FaShoppingCart />, isParent: false },
-    { id: 7, name: 'Profil', path: '/customer-dashboard/profile', icon: <FaCog />, isParent: false},
-    { id: 8, name: 'Déconnexion', path: '/customer-dashboard/logout', icon: <FaSignOutAlt />, isParent: false }, 
+    { id: 11, name: 'Produits', path: '/customer-dashboard', icon: <FaTable />,isParent: true },
+       { id: 12, name: 'Commandes', path: '/customer-dashboard/commandes', icon: <FaShoppingCart />, isParent: false },
+    { id: 13, name: 'Profil', path: '/customer-dashboard/profile', icon: <FaCog />, isParent: false},
+    { id: 14, name: 'Déconnexion', path: '/customer-dashboard/logout', icon: <FaSignOutAlt />, isParent: false }, 
   ]
   const {user} = useAuth();
-  const[menuLinks, setMenuLinks] = useState(customerItems);
+  const[menuLinks, setMenuLinks] = useState(customerItems);  
   useEffect(()=> {
     if(user && user.role === "admin"){
       setMenuLinks(menuItems)
