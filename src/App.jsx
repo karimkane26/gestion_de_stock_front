@@ -13,6 +13,7 @@ import Users from './components/Users';
 import CustomerProducts from './components/CustomerProducts';
 import Orders from './components/Orders';
 import Profile from './components/Profile';
+import Sommaire from './components/Sommaire';
 function App() {
   return (
     <Router >
@@ -27,7 +28,7 @@ function App() {
         >
           <Route
            index
-           element={<h1>Résumé du  Tableau de bord</h1>}
+           element={<Sommaire />}
           />
 
           <Route
@@ -46,7 +47,7 @@ function App() {
 
           <Route
            path='commandes'
-           element={<h1>Commandes</h1>}
+           element={<Orders />}
           />
 
 
@@ -55,10 +56,8 @@ function App() {
            element={<Users />}
           />
 
-            <Route
-           path='profile'
-           element={<h1>Profil</h1>}
-          />
+                    <Route path='profile' element={<Profile  />}/>
+
         <Route path='logout' element={<Logout />} />
 
         </Route>
