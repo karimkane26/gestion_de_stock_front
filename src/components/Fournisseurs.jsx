@@ -157,8 +157,14 @@ else {
       }
       
     } catch (error) {
-       console.error("Erreur de suppression :", error)
+       if(error.response){
+        alert(error.response.data.message);
+      }
+      else{
       alert("Erreur de suppression, veuillez réessayer")
+
+      }
+      // 
     }
   }
 

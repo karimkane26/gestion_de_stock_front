@@ -93,7 +93,7 @@ const Categories = () => {
   }
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette fournisseur ?")
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?")
     if (!confirmDelete) return
 
     try {
@@ -110,15 +110,21 @@ const Categories = () => {
       })
 
       if (response.data.success) {
-        alert("Fournisseur supprimée avec succès")
+        alert("Catégorie supprimée avec succès")
         AfficherCategorie()
       } else {
         alert("Erreur lors de la suppression")
       }
 
     } catch (error) {
-      console.error("Erreur de suppression :", error)
+      if(error.response){
+        alert(error.response.data.message);
+      }
+      else{
       alert("Erreur de suppression, veuillez réessayer")
+
+      }
+      // alert("Erreur de suppression, veuillez réessayer")
     }
   }
 
