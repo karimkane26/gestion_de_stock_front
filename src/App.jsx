@@ -14,9 +14,13 @@ import CustomerProducts from './components/CustomerProducts';
 import Orders from './components/Orders';
 import Profile from './components/Profile';
 import Sommaire from './components/Sommaire';
+import FactureList from './components/FactureList';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <Router >
+        <ToastContainer />
       <Routes>
         <Route path="/" element={<Root />} />
         <Route
@@ -55,8 +59,9 @@ function App() {
            path='Utilisateurs'
            element={<Users />}
           />
+         <Route path='ventes' element={<FactureList  />}/>
 
-                    <Route path='profile' element={<Profile  />}/>
+         <Route path='profile' element={<Profile  />}/>
 
         <Route path='logout' element={<Logout />} />
 

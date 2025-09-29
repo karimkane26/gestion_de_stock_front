@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const CustomerProducts = () => {
   const [categories, setCategories] = useState([]);
@@ -12,7 +13,12 @@ const CustomerProducts = () => {
     quantity: 1,
     total: 0,
     stock: 0,
-    price: 0
+    price: 0,
+    client: {
+      name: "",
+      address: "",
+      telephone: ""
+    }
   });
 
   // Recherche par nom
@@ -58,17 +64,20 @@ const CustomerProducts = () => {
     }
   };
 
-  // Ouvrir modal pour commander
   const handleOrderChange = (product) => {
-    setOrderData({
-      productId: product._id,
-      quantity: 1,
-      total: product.price,
-      stock: product.stock,
-      price: product.price
-    });
-    setOuvrirModal(true);
-  };
+  setOrderData((prev) => ({
+    ...prev, // garde tout ce qui existe déjà
+    productId: product._id,
+    quantity: 1,
+    total: product.price,
+    stock: product.stock,
+    price: product.price,
+    // si prev.client est défini on le garde, sinon on met un objet vide
+    client: prev.client || { name: "", address: "", telephone: "" }
+  }));
+  setOuvrirModal(true);
+};
+
 
   // Fermeture du modal
   const closeModal = () => {
@@ -89,6 +98,17 @@ const increaseQuantity = (e) => {
     ))
   }
 }
+const handleClientChange = (e) => {
+  const { name, value } = e.target;
+
+  setOrderData((prev) => ({
+    ...prev,
+    client: {
+      ...prev.client,
+      [name]: value   // met à jour uniquement le champ modifié
+    }
+  }));
+};
 
   // Soumission du formulaire du modal
   const handleSubmit = async(e) => {
@@ -101,14 +121,19 @@ const increaseQuantity = (e) => {
         },
       });
       if(response.data.success){
-        alert("Commande ajouté avec succés")
+        toast.success("Commande ajouté avec succés")
         setOuvrirModal(false);
         setOrderData({
           productId: "",
           quantity: 1,
           stock: 0,
           total: 0,
-          price: 0
+          price: 0,
+          client: {
+          name: "",
+          address: "",
+          telephone: ""
+  }
         });
       
 
@@ -117,7 +142,7 @@ const increaseQuantity = (e) => {
     }
     // Ici, tu peux appeler ton API pour enregistrer la commande
     catch(error){
-      alert("Erreur" + error)
+      toast.error("Erreur" + error)
     }
   };
 
@@ -174,7 +199,7 @@ const increaseQuantity = (e) => {
                 <td className="border border-gray-300 p-2">{index + 1}</td>
                 <td className="border border-gray-300 p-2">{product.name}</td>
                 <td className="border border-gray-300 p-2">{product.categoryId?.categories}</td>
-                <td className="border border-gray-300 p-2">{product.price} €</td>
+                <td className="border border-gray-300 p-2">{product.price} xof</td>
                 <td className="border border-gray-300 p-2">
                   <span className="px-2 py-1 rounded-full font-semibold">
                     {product.stock === 0 ? (
@@ -218,6 +243,28 @@ const increaseQuantity = (e) => {
             </button>
 
             <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
+              <input type="text" 
+              name='name'
+              placeholder='Nom du client'
+              value={orderData.client.name}
+              onChange={handleClientChange}
+              className='border p-1 bg-white rounded px-4'
+              />
+              <input type="text" 
+              name='address'
+              placeholder='Adresse du client'
+              value={orderData.client.address}
+              onChange={handleClientChange}
+              className='border p-1 bg-white rounded px-4'
+              />
+
+              <input type="text" 
+              name='telephone'
+              placeholder='telephone du client'
+              value={orderData.client.telephone}
+              onChange={handleClientChange}
+              className='border p-1 bg-white rounded px-4'
+              />
               <input
                 type="number"
                 name="quantity"

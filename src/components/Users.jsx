@@ -213,7 +213,7 @@ const handleChange = (e) => {
                <select name="role" id="" className="border w-full p-2 rounded-md" onChange={handleChange} value={formData.role}>
                 <option value="">Choix du role</option>
                 <option value="admin">Admin</option>
-                <option value="customer">Customer</option>
+                <option value="employe">Employé</option>
                </select>
               </div>
 

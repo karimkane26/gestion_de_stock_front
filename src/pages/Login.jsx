@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,8 +29,11 @@ console.log(response.data);
         await login(response.data.user, response.data.token);
 
         if (response.data.user.role === 'admin') {
+           toast.success('Connexion réussie !'); 
           navigate('/admin-dashboard');
         } else {
+           toast.success('Connexion réussie !'); 
+
           navigate('/customer-dashboard');
         }
       } else {

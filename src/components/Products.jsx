@@ -328,7 +328,7 @@ else {
             <td className="border border-gray-300 p-2">{index + 1}</td>
             <td className="border border-gray-300 p-2">{product.name}</td>
             <td className="border border-gray-300 p-2">{product.description}</td>
-            <td className="border border-gray-300 p-2">{product.price} €</td>
+            <td className="border border-gray-300 p-2">{product.price} xof</td>
             <td className="border border-gray-300 p-2">
               <span className="px-2 py-1 rounded-full font-semibold">
               {product.stock === 0 ? (
@@ -347,6 +347,9 @@ else {
             <td className="border border-gray-300 p-2">
                       <button className='px-2 py-1 bg-yellow-500 text-white rounded cursor-pointer mr-2' onClick={() => modification(product)}>Modifier</button>
                       <button className='px-2 py-1 bg-red-500 text-white rounded cursor-pointer' onClick={() => Suppression(product._id)}>Supprimer</button>
+
+                      
+
                     </td>
           </tr>
         ))}
