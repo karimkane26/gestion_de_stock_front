@@ -59,7 +59,6 @@ function App() {
            path='Utilisateurs'
            element={<Users />}
           />
-         <Route path='ventes' element={<FactureList  />}/>
 
          <Route path='profile' element={<Profile  />}/>
 
