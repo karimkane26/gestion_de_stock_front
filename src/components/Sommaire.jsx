@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion'
 const Sommaire = () => {
 
     const [dashboardData,setDashboardData] = useState({
@@ -45,25 +47,38 @@ const Sommaire = () => {
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-6'>
 
-        <div className='bg-blue-500 text-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center'>
+        <motion.div 
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className='bg-blue-500 text-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center'>
             <p>Total Produits</p>
             <p>{dashboardData.totalProducts}</p>
-        </div>
+        </motion.div>
 
-              <div className='bg-green-500 text-white p-4  rounded-lg shadow-md flex flex-col items-center justify-center'>
-            <p>Total Stock</p>
+        <motion.div 
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className='bg-green-500 text-white p-4  rounded-lg shadow-md flex flex-col items-center justify-center'>
+         <p>Total Stock</p>
             <p>{dashboardData.totalStock}</p>
-        </div>
+        </motion.div>
 
-          <div className='bg-yellow-500 text-white p-4  rounded-lg shadow-md flex flex-col items-center justify-center'>
-            <p>commandes aujourd'hui</p>
+             <motion.div 
+             whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }} className='bg-yellow-500 text-white p-4  rounded-lg shadow-md flex flex-col items-center justify-center'>
+                 <p>commandes aujourd'hui</p>
             <p>{dashboardData.ordersToday}</p>
-        </div>
+             </motion.div>
 
-          <div className='bg-purple-500 text-white p-4  rounded-lg shadow-md flex flex-col items-center justify-center'>
-            <p>Revenue</p>
+         <motion.div 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+         className='bg-purple-500 text-white p-4  rounded-lg shadow-md flex flex-col items-center justify-center'>
+         <p>Revenue</p>
             <p>{dashboardData.revenue} XOF</p>
-        </div>
+         </motion.div>
+
+         
 
       </div>
         

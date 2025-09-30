@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Products = () => {
   const [ouvrirModal, setouvrirModal] = useState(false);
@@ -67,15 +68,15 @@ const Products = () => {
         
       );
       if (supprimerProduit.data.success) {
-        alert("Fournisseur supprimée avec succès")
+        toast.success("Fournisseur supprimée avec succès")
         AfficherProduits()
       } else {
-        alert("Erreur lors de la suppression")
+        toast.error("Erreur lors de la suppression")
       }
       
     } catch (error) {
        console.error("Erreur de suppression :", error)
-      alert("Erreur de suppression, veuillez réessayer")
+      toast.error("Erreur de suppression, veuillez réessayer")
     }
   }
 

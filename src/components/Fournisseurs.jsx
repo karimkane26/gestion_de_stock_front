@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Await } from 'react-router';
+import { toast } from 'react-toastify';
 
 export default function Fournisseurs() {
   const [loading,setLoading] = useState(false);
@@ -53,7 +54,7 @@ export default function Fournisseurs() {
 
     // ✅ on vérifie si la modification a réussi
     if (response.status === 200 || response.data) {
-      alert("Fournisseur modifié avec succès");
+      toast.success("Fournisseur modifié avec succès");
 
       setFormData({
         nom: "",
@@ -65,12 +66,12 @@ export default function Fournisseurs() {
       setModifournisseur(null); // 🆗 réinitialisation
       AfficherFournisseur();
     } else {
-      alert("Échec de la modification du fournisseur");
+      toast.error("Échec de la modification du fournisseur");
       console.error("Réponse inattendue :", response);
     }
   } catch (error) {
     console.error("Erreur de modification :", error);
-    alert("Erreur lors de la modification");
+    toast.error("Erreur lors de la modification");
   }
 }
 else {
@@ -93,7 +94,7 @@ else {
           addresse: "",
         });
         setAjoutModifModal(false);
-        alert("Fournisseur ajouté avec succès");
+        toast.success("Fournisseur ajouté avec succès");
         AfficherFournisseur(); // 🆕 Met à jour la liste
       } else {
         console.error("Erreur d'ajout", response.data.error);
@@ -101,9 +102,9 @@ else {
     } catch (error) {
       console.error("Erreur d'ajout", error);
       if (error.code === 11000) {
-        alert("Un fournisseur avec cet email existe déjà.");
+        toast.warn("Un fournisseur avec cet email existe déjà.");
       } else {
-        alert("Erreur d'ajout. Veuillez réessayer.");
+        toast.error("Erreur d'ajout. Veuillez réessayer.");
       }
     }
   }
@@ -150,10 +151,10 @@ else {
         
       );
       if (supprimerFournisseur.data.success) {
-        alert("Fournisseur supprimée avec succès")
+        toast.success("Fournisseur supprimée avec succès")
         AfficherFournisseur()
       } else {
-        alert("Erreur lors de la suppression")
+        toast.error("Erreur lors de la suppression")
       }
       
     } catch (error) {
@@ -161,7 +162,7 @@ else {
         alert(error.response.data.message);
       }
       else{
-      alert("Erreur de suppression, veuillez réessayer")
+      toast.error("Erreur de suppression, veuillez réessayer")
 
       }
       // 

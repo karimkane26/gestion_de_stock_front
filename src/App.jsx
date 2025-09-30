@@ -14,7 +14,6 @@ import CustomerProducts from './components/CustomerProducts';
 import Orders from './components/Orders';
 import Profile from './components/Profile';
 import Sommaire from './components/Sommaire';
-import FactureList from './components/FactureList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {

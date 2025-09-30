@@ -88,7 +88,7 @@ const CustomerProducts = () => {
 
 const increaseQuantity = (e) => {
   if(e.target.value > orderData.stock) {
-    alert("Not enought stock")
+    toast.warn("Stock insuffisant")
   } else {
     setOrderData((prev) => ({
       ...prev,

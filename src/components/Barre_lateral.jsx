@@ -20,7 +20,6 @@ const Barre_lateral = () => {
     { id: 6, name: 'Utilisateurs', path: '/admin-dashboard/utilisateurs', icon: <FaUsers />, isParent: false },
     { id: 7, name: 'Produits', path: '/admin-dashboard/produits', icon: <FaTable />,isParent: false },
     { id: 8, name: 'Commandes', path: '/admin-dashboard/commandes', icon: <FaShoppingCart />, isParent: false },
-    { id: 11, name: 'Ventes', path: '/admin-dashboard/ventes', icon: <LiaSellsy />, isParent: false },
     { id: 9, name: 'Profil', path: '/admin-dashboard/profile', icon: <FaCog />, isParent: false},
     { id: 10, name: 'Déconnexion', path: '/admin-dashboard/logout', icon: <FaSignOutAlt />, isParent: false }, 
   ];
@@ -41,7 +40,7 @@ const Barre_lateral = () => {
   return (
     <div className="flex flex-col h-screen p-3 bg-black text-white w-16 md:w-60 shadow-lg fixed">
       <div className="h-16 flex justify-center items-center">
-        <span className="hidden md:block text-lg font-bold">Inventaire MS</span>
+        <span className="hidden md:block text-lg font-bold">Quincaillerie CSOK </span>
         <span className="md:hidden text-lg font-bold">IMS</span>
       </div>
 

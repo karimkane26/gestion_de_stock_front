@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import React from "react"
+import { toast } from "react-toastify"
 
 const  Users = () => {
     const [formData, setFormData] = useState({
@@ -88,7 +89,7 @@ const handleChange = (e) => {
         )
 
         if (response.data.success) {
-          alert("Utilisateur ajoutée avec succès");
+          toast.success("Utilisateur ajoutée avec succès");
           setFormData({
             name:"",
             email:"",
